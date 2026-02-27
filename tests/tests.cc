@@ -62,8 +62,14 @@ TEST_CASE("Example: Simple widthdraw", "[ex-2]") {
   atm.WithdrawCash(12345678, 1234, 20);
   auto accounts = atm.GetAccounts();
   Account sam_account = accounts[{12345678, 1234}];
+  
 
   REQUIRE(sam_account.balance == 280.30);
+
+  REQUIRE_THROWS_AS(
+            atm.WithdrawCash(12345678, 1234, -500), 
+            std::invalid_argument
+        );
 }
 
 TEST_CASE("Example: Print Prompt Ledger", "[ex-3]") {
@@ -78,4 +84,9 @@ TEST_CASE("Example: Print Prompt Ledger", "[ex-3]") {
       "Deposit - Amount: $32000.00, Updated Balance: $72099.90");
   atm.PrintLedger("./prompt.txt", 12345678, 1234);
   REQUIRE(CompareFiles("./ex-1.txt", "./prompt.txt"));
+
+  REQUIRE_THROWS_AS(
+            atm.PrintLedger("./prompt.txt", 11112222, 1111), 
+            std::invalid_argument
+        );
 }
