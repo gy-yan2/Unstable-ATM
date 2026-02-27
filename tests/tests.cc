@@ -72,6 +72,20 @@ TEST_CASE("Example: Simple widthdraw", "[ex-2]") {
         );
 }
 
+TEST_CASE("Example: simple deposit", "[ex-2.5]") {
+  Atm atm;
+  atm.RegisterAccount(12345678, 1234, "Sam Sepiol", 300.00);
+  atm.DepositCash(12345678, 1234, 200);
+  auto accounts = atm.GetAccounts();
+  Account sam_account = accounts[{12345678, 1234}];
+  REQUIRE(sam_account.balance == 500.00);
+
+  REQUIRE_THROWS_AS(
+            atm.DepositCash(12345678, 1234, -500), 
+            std::invalid_argument
+        );
+}
+
 TEST_CASE("Example: Print Prompt Ledger", "[ex-3]") {
   Atm atm;
   atm.RegisterAccount(12345678, 1234, "Sam Sepiol", 300.30);
