@@ -85,6 +85,7 @@ TEST_CASE("Example: Print Prompt Ledger", "[ex-3]") {
   atm.PrintLedger("./prompt.txt", 12345678, 1234);
   REQUIRE(CompareFiles("./ex-1.txt", "./prompt.txt"));
 
+  // check account doesn't exist
   REQUIRE_THROWS_AS(
             atm.PrintLedger("./prompt.txt", 11112222, 1111), 
             std::invalid_argument
